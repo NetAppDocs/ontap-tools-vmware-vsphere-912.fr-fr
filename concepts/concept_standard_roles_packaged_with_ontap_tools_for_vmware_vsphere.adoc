@@ -1,0 +1,88 @@
+---
+permalink: concepts/concept_standard_roles_packaged_with_ontap_tools_for_vmware_vsphere.html 
+sidebar: sidebar 
+keywords:  
+summary: 'Pour simplifier l"utilisation des privilèges du serveur vCenter et du contrôle d"accès basé sur les rôles \(RBAC\), les outils ONTAP fournissent des rôles d"outils ONTAP standard qui vous permettent d"effectuer des tâches clés des outils ONTAP. Il existe également un rôle en lecture seule qui vous permet d"afficher les informations, mais pas d"effectuer des tâches.' 
+---
+= Rôles standard fournis avec les outils ONTAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Pour simplifier l'utilisation des privilèges du serveur vCenter et du contrôle d'accès basé sur les rôles (RBAC), les outils ONTAP fournissent des rôles d'outils ONTAP standard qui vous permettent d'effectuer des tâches clés des outils ONTAP. Il existe également un rôle en lecture seule qui vous permet d'afficher les informations, mais pas d'effectuer des tâches.
+
+Les rôles d'outils ONTAP standard possèdent à la fois les privilèges spécifiques aux outils ONTAP requis et les privilèges de serveur vCenter natif requis pour que les utilisateurs puissent effectuer des tâches d'outils ONTAP. En outre, les rôles sont configurés de manière à disposer des privilèges requis pour toutes les versions prises en charge de vCenter Server.
+
+En tant qu'administrateur, vous pouvez attribuer ces rôles aux utilisateurs selon les besoins.
+
+
+NOTE: Lorsque vous mettez à niveau les outils ONTAP vers la dernière version, les rôles standard sont automatiquement mis à niveau pour fonctionner avec la nouvelle version de l'outil.
+
+Vous pouvez afficher les rôles standard des outils ONTAP en cliquant sur *Roles* sur la page d'accueil du client vSphere.
+
+Les rôles fournis par les outils ONTAP vous permettent d'effectuer les tâches suivantes :
+
+|===
+
+
+| *Rôle* | *Description* 
+
+
+ a| 
+Administrateur VSC
+ a| 
+Fournit tous les privilèges natifs du serveur vCenter et les privilèges spécifiques aux outils ONTAP requis pour effectuer toutes les tâches des outils ONTAP.
+
+
+
+ a| 
+VSC en lecture seule
+ a| 
+Accès en lecture seule aux outils ONTAP. Ces utilisateurs ne peuvent pas effectuer d'actions d'outils ONTAP contrôlées par l'accès.
+
+
+
+ a| 
+Provisionnement VSC
+ a| 
+Fournit tous les privilèges de serveur vCenter natif et les privilèges spécifiques aux outils ONTAP requis pour provisionner le stockage. Vous pouvez effectuer les tâches suivantes :
+
+* Créer de nouveaux datastores
+* Détruire les datastores
+* Afficher des informations sur les profils de capacité de stockage
+
+
+|===
+
+
+== Instructions d'utilisation des rôles standard des outils ONTAP
+
+Lorsque vous utilisez les outils ONTAP standard pour les rôles VMware vSphere, vous devez suivre certaines directives.
+
+Vous ne devez pas modifier directement les rôles standard. Si c'est le cas, les outils ONTAP écraseront vos modifications chaque fois que vous effectuez une mise à niveau. Le programme d'installation met à jour les définitions de rôles standard chaque fois que vous mettez à niveau les outils ONTAP. Cela permet de s'assurer que les rôles sont à jour pour votre version des outils ONTAP ainsi que pour toutes les versions prises en charge du serveur vCenter.
+
+Vous pouvez toutefois utiliser les rôles standard pour créer des rôles adaptés à votre environnement. Pour ce faire, vous devez copier le rôle standard des outils ONTAP, puis modifier le rôle copié. En créant un nouveau rôle, vous pouvez conserver ce rôle même lorsque vous redémarrez ou mettez à niveau le service Windows des outils ONTAP.
+
+Vous pouvez utiliser les rôles standard des outils ONTAP de différentes façons :
+
+* Utilisez les rôles d'outils ONTAP standard pour toutes les tâches d'outils ONTAP.
++
+Dans ce scénario, les rôles standard fournissent tous les privilèges dont un utilisateur a besoin pour effectuer les tâches des outils ONTAP.
+
+* Associer des rôles pour développer les tâches qu'un utilisateur peut effectuer.
++
+Si les rôles standard des outils ONTAP apportent une granularité excessive à votre environnement, vous pouvez développer les rôles en créant des groupes de niveau supérieur contenant plusieurs rôles.
+
++
+Si un utilisateur doit effectuer d'autres tâches d'outils non ONTAP qui nécessitent des privilèges vCenter Server natifs supplémentaires, vous pouvez créer un rôle qui fournit ces privilèges et l'ajouter au groupe.
+
+* Créer des rôles plus précis.
++
+Si votre entreprise exige que vous mettiez en œuvre des rôles plus restrictifs que les rôles standard pour les outils ONTAP, vous pouvez utiliser les rôles des outils ONTAP pour créer de nouveaux rôles.
+
++
+Dans ce cas, vous allez cloner les rôles d'outils ONTAP nécessaires, puis modifier le rôle cloné de sorte qu'il ne dispose que des privilèges dont votre utilisateur a besoin.
+
+

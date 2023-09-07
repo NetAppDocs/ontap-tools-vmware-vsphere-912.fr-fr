@@ -1,0 +1,43 @@
+---
+permalink: configure/task_enable_vasa_provider_for_configuring_virtual_datastores.html 
+sidebar: sidebar 
+keywords:  
+summary: 'La fonctionnalité VASA Provider est activée par défaut dans les outils ONTAP pour VMware vSphere. Vous pouvez configurer des datastores VMware Virtual volumes \(vVvols\) avec des profils de capacité de stockage requis pour chaque datastore vvols.' 
+---
+= Activez VASA Provider pour la configuration des datastores virtuels
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La fonctionnalité VASA Provider est activée par défaut dans les outils ONTAP pour VMware vSphere. Il est possible de configurer des datastores VMware Virtual volumes (vvols) avec les profils de capacité de stockage requis pour chaque datastore vvols.
+
+*Ce dont vous aurez besoin*
+
+* Vous devez avoir configuré votre instance vCenter Server et ESXi.
+* Vous devez avoir déployé des outils ONTAP .
+
+
+*À propos de cette tâche*
+
+Si la fonctionnalité VASA Provider est désactivée avant la mise à niveau vers la version 9.7.1 des outils ONTAP , la fonctionnalité VASA Provider reste désactivée après la mise à niveau. Cette version vous permet d'activer la fonctionnalité de réplication de vvols pour les datastores vvols.
+
+*Étapes*
+
+. Connectez-vous à l'interface utilisateur Web de VMware vSphere.
+. Dans le client vSphere, sélectionnez *Menu* > *Outils NetApp ONTAP*.
+. Cliquez sur *Paramètres*.
+. Cliquez sur *gérer les fonctionnalités* dans l'onglet Paramètres d'administration.
+. Dans la boîte de dialogue gérer les fonctionnalités, sélectionnez l'extension VASA Provider à activer.
+. Si vous souhaitez utiliser la capacité de réplication pour les datastores vVvols, utilisez le bouton bascule *Activer la réplication vVvols*.
+. Entrez l'adresse IP des outils ONTAP et le mot de passe administrateur, puis cliquez sur *appliquer*.
++
+
+NOTE: Si le statut VASA Provider s'affiche comme « Offline » même après avoir activé l'extension VASA Provider, vérifiez le fichier /var/log/vmware/vmware-sps/sps.log pour toute erreur de connexion avec VASA Provider ou redémarrez le service « vmware-sps ».
+
+
+
+*Informations connexes*
+
+https://mysupport.netapp.com/site/global/dashboard["Support NetApp"]

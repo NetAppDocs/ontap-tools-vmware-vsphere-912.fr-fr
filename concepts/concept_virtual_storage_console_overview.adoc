@@ -1,0 +1,71 @@
+---
+permalink: concepts/concept_virtual_storage_console_overview.html 
+sidebar: sidebar 
+keywords:  
+summary: Les outils ONTAP pour VMware vSphere offrent une gestion du cycle de vie de bout en bout des ordinateurs virtuels dans des environnements VMware qui utilisent des systèmes de stockage NetApp. Il permet aux administrateurs de gérer directement le stockage dans vCenter Server et simplifie ainsi la gestion du stockage et des données dans les environnements VMware. 
+---
+= Présentation des outils ONTAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les outils ONTAP pour VMware vSphere offrent une gestion du cycle de vie de bout en bout des ordinateurs virtuels dans des environnements VMware qui utilisent des systèmes de stockage NetApp. Il permet aux administrateurs de gérer directement le stockage dans vCenter Server et simplifie ainsi la gestion du stockage et des données dans les environnements VMware.
+
+Les outils ONTAP s'intègrent au client vSphere et vous permettent d'utiliser des services SSO. Dans un environnement comportant plusieurs instances de serveur vCenter, chaque instance de serveur vCenter que vous souhaitez gérer doit posséder sa propre instance enregistrée d'outils ONTAP.
+
+Chaque composant des outils ONTAP offre des fonctionnalités qui vous aident à gérer votre stockage plus efficacement.
+
+L'outil VMware vSphere client Remote Plug-in est conçu pour intégrer la fonctionnalité de plug-in au client vSphere sans avoir à l'exécuter dans vCenter Server. Cela permet d'isoler les plug-ins et de faire évoluer horizontalement les plug-ins qui fonctionnent dans de grands environnements vSphere.
+
+
+
+== Virtual Storage Console (VSC).
+
+VSC vous permet d'effectuer les tâches suivantes :
+
+* Ajoutez des contrôleurs de stockage, attribuez des informations d'identification et configurez les autorisations pour les contrôleurs de stockage VSC, que SRA et VASA Provider peuvent exploiter
+* Provisionner les datastores
+* Surveiller les performances des datastores et des machines virtuelles de l'environnement vCenter Server
+* Contrôler l'accès de l'administrateur aux objets vCenter Server à l'aide du contrôle d'accès basé sur des rôles (RBAC) à deux niveaux :
++
+** Objets vSphere, tels que des machines virtuelles et des datastores
++
+Ces objets sont gérés à l'aide du RBAC de vCenter Server.
+
+** Le stockage ONTAP
++
+Les systèmes de stockage sont gérés à l'aide du RBAC de ONTAP.
+
+
+
+* Afficher et mettre à jour les paramètres d'hôte des hôtes ESXi connectés au système de stockage NetApp
+
+
+Les opérations de provisionnement VSC tirent parti du plug-in NFS pour les API VMware vStorage for Array Integration (VAAI). Le plug-in NFS pour VAAI est une bibliothèque logicielle qui intègre les bibliothèques de disques virtuels VMware installées sur l'hôte ESXi. Le package VMware VAAI permet de décharger certaines tâches des hôtes physiques vers la baie de stockage. Vous pouvez effectuer des tâches telles que le provisionnement fin et l'accélération matérielle au niveau de la baie afin de réduire la charge de travail sur les hôtes ESXi. La fonctionnalité de déchargement de copies et de réservation d'espace améliorent les performances des opérations VSC.
+
+Le plug-in NetApp NFS pour VAAI n'est pas fourni avec VSC. Vous pouvez cependant télécharger le pack d'installation du plug-in et obtenir les instructions d'installation du plug-in sur le site de support NetApp.
+
+
+
+== Vasa Provider
+
+Vasa Provider pour ONTAP utilise les API VMware vSphere pour Storage Awareness (VASA) pour envoyer des informations sur le stockage utilisé par VMware vSphere vers vCenter Server. Vasa Provider est intégré aux outils ONTAP. Vasa Provider permet d'effectuer les tâches suivantes :
+
+* Provisionnez les datastores VMware Virtual volumes (vvols)
+* Créez des profils de capacité de stockage qui définissent différents objectifs de niveau de service (SLO) pour votre environnement
+* Vérifiez la conformité entre les datastores et les profils de capacité de stockage
+* Définissez des alarmes pour vous avertir lorsque les volumes et les agrégats approchent des limites de seuil
+* Surveiller les performances des disques virtuels (VMDK) et des machines virtuelles créées dans les datastores vvols
+
+
+
+
+== Storage Replication adapter (SRA)
+
+Lorsque SRA est activé et utilisé conjointement avec VMware site Recovery Manager (SRM), vous pouvez restaurer les datastores vCenter Server et les machines virtuelles en cas de défaillance. SRA vous permet d'utiliser la réplication basée sur les baies (ABR) pour les sites protégés et les sites de reprise après incident en cas de défaillance.
+
+*Informations connexes*
+
+https://mysupport.netapp.com/site/global/dashboard["Support NetApp"]

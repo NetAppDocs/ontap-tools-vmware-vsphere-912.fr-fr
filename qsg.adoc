@@ -1,0 +1,207 @@
+---
+sidebar: sidebar 
+permalink: qsg.html 
+keywords: QSG, ONTAP tools for VMware vSphere, Quick start guide, Installing 
+summary: 'Le fournit des instructions sur le déploiement et l"initialisation des outils ONTAP pour VMware vSphere.' 
+---
+= Aide à la vente des outils ONTAP pour VMware vSphere
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+:toc-position: content
+
+
+[role="lead"]
+Les outils ONTAP pour VMware vSphere sont un plug-in vCenter Server unique qui comprend les extensions VSC, VASA Provider et Storage Replication adapter (SRA). VSC est recommandé pour tous les environnements ONTAP vSphere lors de la configuration des paramètres d'hôte ESXi et du provisionnement du stockage ONTAP en suivant les meilleures pratiques. Il est nécessaire de créer une application VASA Provider pour la prise en charge des volumes virtuels (vvols), et SRA fonctionne avec VMware site Recovery Manager.
+
+
+
+== Préparation de l'installation
+
+Vous déployez le plug-in en tant qu'appliance virtuelle, ce qui vous permet de réduire les efforts d'installation et d'enregistrement de chaque produit séparément auprès de vCenter Server.
+
+
+
+=== De déploiement
+
+Les outils ONTAP peuvent être utilisés avec une appliance virtuelle VMware vCenter Server (vCSA). Vous devez déployer les outils ONTAP sur un système vSphere pris en charge incluant le système ESXi.
+
+Les exigences minimales en matière d'espace et de dimensionnement de l'hôte sont les suivantes :
+
+[cols="25,75"]
+|===
+| *Système* | *Exigences minimales* 
+
+
+| Espace | 2.1 Go pour les installations à provisionnement fin, 54.0 Go pour les installations à provisionnement fin 
+
+
+| Dimensionnement de l'hôte | Mémoire recommandée : 12 Go, processeurs recommandés : 2 
+|===
+Vous devez connaître les licences suivantes :
+
+[cols="25,75"]
+|===
+| *Licence* | *Description* 
+
+
+| SnapMirror | (Facultatif) requis pour la réalisation des opérations de basculement pour SRA et VASA Provider si u utilise la réplication vvols. 
+
+
+| FlexClone | (Facultatif) requis pour les opérations de test de basculement pour SRA et pour les opérations vVvols de VASA Provider. 
+|===
+Les outils ONTAP utilisent les ports TCP bidirectionnels suivants :
+
+|===
+| * Exigences supplémentaires* | *Colonne Description* 
+
+
+| 9083 | Lorsqu'il est activé, le fournisseur VASA et l'adaptateur SRA (Storage Replication adapter) utilisent ce port pour communiquer avec vCenter Server. Ce port est également requis pour obtenir les paramètres TCP/IP. Ce port prend en charge le téléchargement de bundle, l'interface utilisateur Web-CLI et la communication du chemin de contrôle entre VMware et VP. SRA communique sur ce numéro DE PORT avec le service SRA back-end. 
+
+
+| 8143 | Les outils ONTAP sont à l'écoute des communications sécurisées sur ce port. 
+|===
+Exigences minimales en matière de stockage et d'applications :
+
+|===
+| *Stockage, hôte et applications* | *Exigences de version* 
+
+
+| ONTAP | ONTAP 9.7, 9.8P1 ou version ultérieure. 
+
+
+| VMware vSphere, vCenter Server, hôtes ESXi, site Recovery Manager (SRM), applications de plug-ins et bases de données colonne 1 | Voir la https://imt.netapp.com/matrix/imt.jsp?components=105475;&solution=1777&isHWU&src=IMT["Matrice d'interopérabilité"^] 
+|===
+
+
+=== Configuration minimale requise pour les outils ONTAP
+
+* Configurez et configurez votre environnement vCenter Server.
+* Téléchargez le fichier .ova.
+* Les informations d'identification de votre instance de vCenter Server.
+* Supprimez le cache du navigateur pour éviter tout problème de cache du navigateur pendant le déploiement des outils ONTAP.
+* Configurez la passerelle par défaut à utiliser par l'appliance virtuelle pour répondre aux requêtes ping ICMP.
+* Nom d'hôte DNS valide pour l'appliance virtuelle.
+
+
+
+
+=== Exigences facultatives pour SRA
+
+Si vous déployez l'appliance virtuelle pour une utilisation avec VMware site Recovery Manager, vous devez disposer des éléments suivants :
+ * Téléchargé le `.tar.gz` Fichier pour SRA si vous utilisez l'appliance SRM.
+
+
+
+== Déploiement des outils ONTAP
+
+.Étapes
+. Télécharger `.zip` fichier contenant des binaires et des certificats signés à partir du https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site de support NetApp"^] Sur un système vSphere client pour déployer les outils ONTAP.
+. Extraire le `.zip` et déployez le `.ova` fichier.
++
+Vous devez déployer le `.ova` Fichier sur les sites source et de destination si vous déployez SRA.
+
+. Connectez-vous au client Web vSphere, sélectionnez *Accueil* > *hôte et clusters*.
+. Cliquez avec le bouton droit de la souris sur le centre de données requis, puis cliquez sur *déployer le modèle OVF*.
++
+Si vous utilisez vCenter7.0u3e et les versions ultérieures, effectuez les opérations suivantes, sinon passez à l'étape 5. Il s'agit d'une étape facultative pour vérifier que l'intégrité binaire OVA n'est pas altérée.
+
++
+** Téléchargez le fichier _OTV_INTER_ROOT_CERT_CHAIN.pem_ sur le site de support NetApp.
+** Accédez à *vcenter* > *administration* > *gestion des certificats*.
+** Cliquez sur l'option *Ajouter un certificat racine approuvé*.
+** Cliquez sur *Browse* et indiquez le chemin d'accès pour _OTV_INTER_ROOT_CERT_CHAIN.pem_ file.
+** Cliquez sur *Ajouter*.
++
+
+NOTE: Le message Entrust Code Signing - OVCS2 (Trusted Certificate) confirme l'intégrité du fichier OVA téléchargé.
+Si le message Entrust Code Signing - OVCS2 (Invalid Certificate) s'affiche, mettez à niveau VMware vCenter Server vers 7.0U3E ou une version supérieure.
+
+
+
+. Vous pouvez soit saisir l'URL du fichier .ova, soit rechercher le dossier dans lequel le fichier .ova est enregistré, puis cliquer sur *Suivant*.
+. Entrez les informations requises pour terminer le déploiement.
+
+
+
+NOTE: (Facultatif) si vous souhaitez créer des conteneurs sans vous inscrire à vCenter Server, cochez la case Activer VMware Cloud Foundation (VCF) dans la section configurer vCenter ou Activer VCF.
+
+Vous pouvez afficher la progression du déploiement à partir de l'onglet *tâches* et attendre la fin du déploiement.
+
+Des vérifications du checksum du déploiement sont effectuées. Si le déploiement échoue, procédez comme suit :
+
+. Vérifiez vpserver/logs/checksum.log. Si le message « échec de la vérification de la somme de contrôle » s'affiche,
+vous pouvez voir la vérification du fichier jar qui a échoué dans le même journal.
++
+Le fichier journal contient l'exécution de _sha256sum -c /opt/netapp/vpserver/conf/Checksums_.
+
+. Vérifiez vscserver/log/checksum.log. Si le message « échec de la vérification de la somme de contrôle » s'affiche,
+vous pouvez voir la vérification du fichier jar qui a échoué dans le même journal.
++
+Le fichier journal contient l'exécution de _sha256sum -c /opt/netapp/vscerver/etc/Checksums_.
+
+
+
+
+
+=== Déployer SRA sur SRM
+
+Vous pouvez déployer SRA sur le serveur Windows SRM ou sur l'appliance 8.2 SRM.
+
+
+
+==== Téléchargement et configuration de SRA sur SRM Appliance
+
+.Étapes
+. Téléchargez le `.tar.gz` fichier du https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site de support NetApp"^].
+. Sur l'écran SRM Appliance, cliquez sur *Storage Replication adapter* > *New adapter*.
+. Téléchargez le `.tar.gz` Fichier vers SRM.
+. Relancez l'analyse des cartes pour vérifier que les détails sont mis à jour dans la page SRM Storage Replication Adapters.
+. Connectez-vous à l'aide du compte administrateur à l'appliance SRM à l'aide de la fonction putty.
+. Passez à l'utilisateur root : `su root`
+. Dans la commande log location, entrez pour obtenir l'ID docker utilisé par docker SRA : `docker ps -l`
+. Connectez-vous à l'ID de conteneur : `docker exec -it -u srm <container id> sh`
+. Configurer SRM à l'aide de l'adresse IP et du mot de passe des outils ONTAP : `perl command.pl -I <otv-IP> administrator <otv-password>`
+Un message de confirmation de la mémorisation des identifiants de stockage s'affiche.
+
+
+
+
+==== Mise à jour des informations d'identification SRA
+
+.Étapes
+. Supprimez le contenu du répertoire /srm/sra/conf en utilisant :
++
+.. `cd /srm/sra/conf`
+.. `rm -rf *`
+
+
+. Exécutez la commande perl pour configurer SRA avec les nouvelles informations d'identification :
++
+.. `cd /srm/sra/`
+.. `perl command.pl -I <otv-IP> administrator <otv-password>`
+
+
+
+
+
+
+==== Activation de VASA Provider et SRA
+
+.Étapes
+. Connectez-vous au client Web vSphere à l'aide de l'adresse IP vCenter fournie lors du déploiement des outils ONTAP OVA.
+. Dans la page des raccourcis, cliquez sur *NetApp ONTAP Tools* dans la section des plug-ins.
+. Dans le volet gauche des outils ONTAP, *Paramètres > Paramètres d'administration > gérer les capacités*, et activez les fonctionnalités requises.
++
+
+NOTE: Vasa Provider est activé par défaut. Si vous souhaitez utiliser la capacité de réplication pour les datastores vVvols, utilisez ensuite le bouton bascule Activer la réplication vvols.
+
+. Entrez l'adresse IP des outils ONTAP et le mot de passe administrateur, puis cliquez sur *appliquer*.
+

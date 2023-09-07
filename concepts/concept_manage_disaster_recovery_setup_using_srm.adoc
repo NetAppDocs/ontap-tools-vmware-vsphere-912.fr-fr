@@ -1,0 +1,40 @@
+---
+permalink: concepts/concept_manage_disaster_recovery_setup_using_srm.html 
+sidebar: sidebar 
+keywords:  
+summary: 'Vous pouvez créer et gérer la configuration de reprise sur incident dans votre serveur vCenter avec le Gestionnaire de récupération sur site \(SRM\) de VMware.' 
+---
+= Configurer la configuration de la reprise après incident
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez créer et gérer la configuration de la reprise après incident dans vCenter Server avec SRM (site Recovery Manager) de VMware.
+
+Vasa Provider intègre désormais les fonctionnalités de Storage Replication adapter (SRA). Si vous avez configuré des datastores vvols dans votre datacenter, alors pour la restauration de datastores vvols, il n'est pas nécessaire d'installer SRA séparément pour la reprise après incident. Dans site Recovery Manager (SRM), vous devez coupler les sites protégés et de reprise. Une fois le couplage du site effectué, la partie suivante de la configuration SRM implique la configuration d'une paire de matrices qui permet à SRM de communiquer avec le système de stockage pour détecter les périphériques et la réplication des périphériques. Avant de pouvoir configurer la paire de matrices, vous devez d'abord créer une paire de sites dans SRM.
+
+Cette version des outils ONTAP vous offre la possibilité d'utiliser la configuration SnapMirror synchrone pour la reprise après incident.
+
+
+NOTE: VMware site Recovery Manager (SRM) n'utilise pas SRA pour la gestion de la reprise après incident des datastores vVvols. Au contraire, VASA Provider est utilisé pour la réplication et le contrôle de basculement des datastores vvols sur des clusters ONTAP 9.7 et versions ultérieures.
+
+Voir link:../protect/task_enable_storage_replication_adapter.html["Activez Storage Replication adapter"] section pour la procédure.
+
+.activation de la fonction quick_resync
+Vous pouvez activer l'indicateur Quick_resync pour effectuer l'opération de reprotection et de restauration dans SRA. Cela s'applique uniquement aux datastores reposant sur des volumes avec une relation SnapMirror asynchrone. l'indicateur quick_resync permet une resynchronisation plus rapide du volume de destination, car la resynchronisation n'entraîne pas de surcharge de l'efficacité du stockage
+avant le transfert de nouvelles données.
+La fonction Quick_resync n'est pas activée par défaut. Il est recommandé d'activer l'indicateur Quick_resync :
+
+* Lorsque l'efficacité du volume n'est pas activée pour la source de la resynchronisation.
+* Lorsque la réduction du temps de resynchronisation est plus importante que la préservation de toute l'efficacité du stockage sur le réseau.
+
+
+Pour activer l'indicateur Quick_resync, procédez comme suit :
+
+.Étapes
+. Connectez-vous au panneau de configuration à l'adresse _https://<IP address>:9083_ et cliquez sur interface CLI Web.
+. Lancer la commande `vp updateconfig -key=snapmirror.quick.resync.enabled -value=true`.
+. Lancer la commande `vp reloadconfig`.
+
